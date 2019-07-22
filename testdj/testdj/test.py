@@ -12,16 +12,16 @@ def search_info(request):
 
 # 接收请求数据
 def search(request):
-    # request.encoding = 'utf-8'
-    # if 'q' in request.GET:
-    #     message = '你搜索的内容为: ' + request.GET['q']
-    # else:
-    #     message = '你提交了空表单'
-    # return HttpResponse(message)
 
-    sender ='multi.client.aibbny@bnymellon.com'
-    subject = 'Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019'
-    fileName = 'INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls'
+    request.encoding = 'utf-8'
+    if 'sender' in request.GET:
+        sender = request.GET['sender']
+
+    if 'subject' in request.GET:
+        subject = request.GET['subject']
+
+    if 'fileName' in request.GET:
+        fileName = request.GET['fileName']
 
 
     predictLabel, accuracy = pd.getPredictInfo(sender,subject,fileName)

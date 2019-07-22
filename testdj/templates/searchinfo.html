@@ -3,13 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>test</title>
+
+    <style>
+        div{
+            margin-bottom:20px;
+        }
+
+        .text{
+            width:500px;
+        }
+
+    </style>
 </head>
 <body>
 
     <form action="/search" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="搜索">
+        <h3>predict delivery id</h3>
+        <div>sender:<input type="text" class="text" name="sender" id="sender"></div>
+        <div>subject:<input type="text" class="text"  name="subject" id="subject" ></div>
+        <div>fileName:<input type="text" class="text"  name="fileName" id="fileName"></div>
+
+        <input id="btnGetData" name="btnGetData" type="button" value="ajax查询">
+
+        <div>
+            <h2>predict result:</h2>
+            <div id="predictInfoDiv" style="border:1px solid red;">
+                <p>
+                    delivery id is:<span id="deliveryId"></span>
+                </p>
+                <p>
+                    accuracy is:<span id="accuracy"></span>
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <h3>test demo:</h3>
+            <p>sender: <span>multi.client.aibbny@bnymellon.com</span></p>
+            <p>subject: <span>Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019</span></p>
+            <p>fileName: <span>INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls</span></p>
+        </div>
+
+
     </form>
+
+    <script type=text/javascript src="./../static/js/jquery.min.js"></script>
+    <script type=text/javascript>
+
+        $(function(){
+
+            $("#btnGetData").click(function(){
+
+                var sender= $("#sender").val();
+                var subject= $("#subject").val();
+                var fileName= $("#fileName").val();
+
+                var obj = new Object();
+                obj.sender = sender;
+                obj.subject = subject;
+                obj.fileName = fileName;
+
+                var url='/search';
+                var dataInfo=obj;
+
+                $.ajax({
+                    url:url,
+                    data:dataInfo,
+                    dataType:'json',
+                    type:'get',
+                    success:function(data){
+                        $("#deliveryId").text(data.deliveryId);
+                        $("#accuracy").text(data.accuracy);
+                    },
+                    error:function(){
+                        alert('error');
+                    }
+                })
+
+
+
+            })
+
+
+        })
+
+    </script>
 
 </body>
 </html>
