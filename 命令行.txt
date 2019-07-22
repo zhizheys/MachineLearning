@@ -1,0 +1,13 @@
+
+#创建网站
+django-admin startproject testdj
+
+#切换到我们创建的项目
+cd testdj
+
+#启动网站
+python manage.py runserver
+
+
+#项目已启动，访问地址为
+http://127.0.0.1:8000/。
