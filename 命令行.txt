@@ -5,9 +5,13 @@ django-admin startproject testdj
 #切换到我们创建的项目
 cd testdj
 
-#启动网站
+#启动网站，使用localhost
 python manage.py runserver
 
+http://127.0.0.1:8000/
 
-#项目已启动，访问地址为
-http://127.0.0.1:8000/。
+
+#启动网站，使用本机ip作为网站：
+python3 manage.py runserver 0.0.0.0:8000
+
+http://10.86.16.248:8000/

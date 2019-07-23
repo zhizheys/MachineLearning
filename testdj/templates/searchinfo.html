@@ -17,28 +17,51 @@
 </head>
 <body>
 
-    <form action="/search" method="get">
-        <h3>predict delivery id</h3>
-        <div>sender:<input type="text" class="text" name="sender" id="sender"></div>
-        <div>subject:<input type="text" class="text"  name="subject" id="subject" ></div>
-        <div>fileName:<input type="text" class="text"  name="fileName" id="fileName"></div>
-
-        <input id="btnGetData" name="btnGetData" type="button" value="ajax查询">
+    <form action="/search" method="post">
+        <h2>predict delivery id</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td>sender:</td>
+                    <td><input type="text" class="text" name="sender" id="sender"></td>
+                </tr>
+                <tr>
+                    <td>subject:</td>
+                    <td><input type="text" class="text"  name="subject" id="subject" ></td>
+                </tr>
+                <tr>
+                    <td>fileName:</td>
+                    <td><input type="text" class="text"  name="fileName" id="fileName"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top:20px;">
+            <input id="btnGetData" name="btnGetData" type="button" value="查询" style="width:100px;">
+        </p>
 
         <div>
             <h2>predict result:</h2>
-            <div id="predictInfoDiv" style="border:1px solid red;">
+            <div id="predictInfoDiv" style="border:1px solid red;width:600px;">
                 <p>
-                    delivery id is:<span id="deliveryId"></span>
+                    <span style="font-weight:bold;margin-right:10px;">delivery id is:</span><span id="deliveryId"></span>
                 </p>
                 <p>
-                    accuracy is:<span id="accuracy"></span>
+                    <span style="font-weight:bold;margin-right:10px;">accuracy is:</span><span id="accuracy"></span>
                 </p>
             </div>
         </div>
 
         <div>
-            <h3>test demo:</h3>
+            <h2>api format:</h2>
+            <h4>method='post'</h4>
+            <h4>url='http://10.86.16.248:8000/search/'</h4>
+            <h4>json object = {"sender":"multi.client.aibbny@bnymellon.com",
+                               "subject":"Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019",
+                               "fileName":"INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls"}</h4>
+        </div>
+
+        <div>
+            <h2>test demo content:</h2>
             <p>sender: <span>multi.client.aibbny@bnymellon.com</span></p>
             <p>subject: <span>Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019</span></p>
             <p>fileName: <span>INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls</span></p>
@@ -66,14 +89,14 @@
                 obj.subject = subject;
                 obj.fileName = fileName;
 
-                var url='/search';
+                var url='http://10.86.16.248:8000/search/';
                 var dataInfo=obj;
 
                 $.ajax({
                     url:url,
                     data:dataInfo,
                     dataType:'json',
-                    type:'get',
+                    type:'post',
                     success:function(data){
                         $("#deliveryId").text(data.deliveryId);
                         $("#accuracy").text(data.accuracy);

@@ -7,10 +7,13 @@ import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from keras.models import  load_model
 from . import utilHelpe
+import os
 
 def predictInfo(fileInfo):
 
-    fileRootPath = 'E:/Test/python/djangoweb/testdj/testdj'
+    rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fileRootPath = rootPath + '/testdj'
+
 
     targetLabel = 'No found'
     #load 词向量模型
