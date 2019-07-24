@@ -42,7 +42,7 @@ def search(request):
         result = {"apiCode":1,"message":'',"apiResult":"success","deliveryId": predictLabel, "accuracy": accuracy}
 
     except (Exception) as e:
-        result = {"apiCode":0,"message":e,"apiResult": "error", "deliveryId": '', "accuracy": ''}
+        result = {"apiCode":0,"message":str(e),"apiResult": "error", "deliveryId": '', "accuracy": ''}
 
     # json返回为中文
     return HttpResponse(json.dumps(result, cls=jsonHelper.NpEncoder), content_type="application/json,charset=utf-8")
