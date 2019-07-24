@@ -8,10 +8,10 @@ cd testdj
 #启动网站，使用localhost
 python manage.py runserver
 
-http://127.0.0.1:8000/
+http://127.0.0.1:8000/test/
 
 
 #启动网站，使用本机ip作为网站：
-python3 manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000
 
-http://10.86.16.248:8000/
+http://10.86.16.248:8000/test/

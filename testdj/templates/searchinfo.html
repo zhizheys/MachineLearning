@@ -73,6 +73,60 @@
     <script type=text/javascript src="./../static/js/jquery.min.js"></script>
     <script type=text/javascript>
 
+            //----------------ajax
+            function ajax(){
+                var ajaxData = {
+                  type:arguments[0].type || "GET",
+                  url:arguments[0].url || "",
+                  async:arguments[0].async || "true",
+                  data:arguments[0].data || null,
+                  dataType:arguments[0].dataType || "json",
+                  contentType:arguments[0].contentType || "application/json",
+                  beforeSend:arguments[0].beforeSend || function(){},
+                  success:arguments[0].success || function(){},
+                  error:arguments[0].error || function(){}
+                }
+                ajaxData.beforeSend();
+                var xhr = createxmlHttpRequest();
+                xhr.responseType=ajaxData.dataType;
+                xhr.open(ajaxData.type,ajaxData.url,ajaxData.async);
+                xhr.setRequestHeader("Content-Type",ajaxData.contentType);
+                xhr.send(convertData(ajaxData.data));
+                xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                    if(xhr.status == 200){
+                      ajaxData.success(xhr.response);
+                    }else{
+                      ajaxData.error();
+                    }
+                  }
+                }
+            }
+
+            function createxmlHttpRequest() {
+              if (window.ActiveXObject) {
+                return new ActiveXObject("Microsoft.XMLHTTP");
+              } else if (window.XMLHttpRequest) {
+                return new XMLHttpRequest();
+              }
+            }
+
+            function convertData(data){
+              if( typeof data === 'object' ){
+                var convertResult = "" ;
+                for(var c in data){
+                  convertResult+= c + "=" + data[c] + "&";
+                }
+                convertResult=convertResult.substring(0,convertResult.length-1)
+                return convertResult;
+              }else{
+                return data;
+              }
+            }
+
+            //----------------end ajax
+
+
         $(function(){
 
             $("#btnGetData").click(function(){
@@ -89,22 +143,29 @@
                 obj.subject = subject;
                 obj.fileName = fileName;
 
-                var url='http://10.86.16.248:8000/search/';
-                var dataInfo=obj;
+                var url='http://127.0.0.1:8000/search/';
+                var dataInfo=JSON.stringify(obj)
 
-                $.ajax({
-                    url:url,
-                    data:dataInfo,
-                    dataType:'json',
-                    type:'post',
-                    success:function(data){
+
+
+                ajax({
+                      type: "POST",
+                      url: url,
+                      dataType: "json",
+                      data: dataInfo,
+                      contentType:"application/x-www-form-urlencoded",
+                      beforeSend: function() {
+                        //some js code
+                      },
+                      success: function(data) {
+                        console.log('--------ajax');
                         $("#deliveryId").text(data.deliveryId);
                         $("#accuracy").text(data.accuracy);
-                    },
-                    error:function(){
+                      },
+                      error: function() {
                         alert('error');
-                    }
-                })
+                      }
+                    });
 
 
 
