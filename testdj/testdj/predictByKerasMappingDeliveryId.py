@@ -27,6 +27,10 @@ def predictInfo(fileInfo):
     loaded_vec = CountVectorizer(decode_error="replace", vocabulary=vectorizer)
     x_testStr = loaded_vec.transform(testStr)
 
+    print('4444444444444444')
+    print(testStr)
+    print(x_testStr)
+
     prediction=model.predict(x_testStr)
     prediction_class=model.predict_classes(x_testStr)
     maxSimilar = prediction[0].max()

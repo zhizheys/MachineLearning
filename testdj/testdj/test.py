@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from . import predictByKerasMappingDeliveryId as pd
 from . import jsonHelper
+import traceback
 import os
 
 # 表单
@@ -42,6 +43,7 @@ def search(request):
         result = {"apiCode":1,"message":'',"apiResult":"success","deliveryId": predictLabel, "accuracy": accuracy}
 
     except (Exception) as e:
+        print(traceback.format_exc())
         result = {"apiCode":0,"message":str(e),"apiResult": "error", "deliveryId": '', "accuracy": ''}
 
     # json返回为中文
