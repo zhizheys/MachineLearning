@@ -43,6 +43,9 @@ def search(request):
         predictLabel, accuracy = predictItem.getPredictInfo(model,sender,subject,fileName)
         accuracy = '%.5f'%accuracy
 
+        if predictLabel != None:
+            predictLabel = str(predictLabel).upper()
+
         result = {"apiCode":1,"message":'',"apiResult":"success","deliveryId": predictLabel, "accuracy": accuracy}
 
     except (Exception) as e:

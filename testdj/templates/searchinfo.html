@@ -10,8 +10,20 @@
         }
 
         .text{
-            width:500px;
+            border:1px solid #000;
+            height:20px;
+            line-height:20px;
+            width:600px;
         }
+
+        td{
+            padding-top:20px;
+        }
+
+        .label{
+            font-size:20px;
+        }
+
 
     </style>
 </head>
@@ -22,15 +34,15 @@
         <table>
             <tbody>
                 <tr>
-                    <td>sender:</td>
+                    <td class="label">sender:</td>
                     <td><input type="text" class="text" name="sender" id="sender"></td>
                 </tr>
                 <tr>
-                    <td>subject:</td>
+                    <td class="label">subject:</td>
                     <td><input type="text" class="text"  name="subject" id="subject" ></td>
                 </tr>
                 <tr>
-                    <td>fileName:</td>
+                    <td class="label">fileName:</td>
                     <td><input type="text" class="text"  name="fileName" id="fileName"></td>
                 </tr>
             </tbody>
@@ -41,7 +53,7 @@
 
         <div>
             <h2>predict result:</h2>
-            <div id="predictInfoDiv" style="border:1px solid red;width:600px;">
+            <div id="predictInfoDiv" style="border:1px solid blue;width:400px;">
                 <p>
                     <span style="font-weight:bold;margin-right:10px;">delivery id is:</span><span id="deliveryId"></span>
                 </p>
@@ -53,11 +65,11 @@
 
         <div>
             <h2>api format:</h2>
-            <h4>method='post'</h4>
-            <h4>url='http://10.86.16.248:8000/search/'</h4>
-            <h4>json object = {"sender":"multi.client.aibbny@bnymellon.com",
+            <p>method='post'</p>
+            <p>url='http://10.86.16.248:8000/search/'</p>
+            <p>json object = {"sender":"multi.client.aibbny@bnymellon.com",
                                "subject":"Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019",
-                               "fileName":"INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls"}</h4>
+                               "fileName":"INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls"}</p>
         </div>
 
         <div>
