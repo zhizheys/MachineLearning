@@ -4,10 +4,15 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from . import predictByKerasMappingDeliveryId as pd
+from keras.models import  load_model
+from . import predictMappingDeliveryId as pd
 from . import jsonHelper
 import traceback
 import os
+
+rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+fileRootPath = rootPath + '/testdj'
+model = load_model(fileRootPath + '/model_keras_matchDeliveryId.h5')
 
 # 表单
 def search_info(request):
@@ -33,12 +38,10 @@ def search(request):
         # fileName = request.POST.get('fileName','')
         # #name = request.POST.get('name', '')  # 发布会名称
 
-        print('----------3333333', sender,subject,fileName)
 
-        predictLabel, accuracy = pd.getPredictInfo(sender,subject,fileName)
+        predictItem = pd.PredictMap()
+        predictLabel, accuracy = predictItem.getPredictInfo(model,sender,subject,fileName)
         accuracy = '%.5f'%accuracy
-
-        print('----------predict result ', predictLabel, accuracy)
 
         result = {"apiCode":1,"message":'',"apiResult":"success","deliveryId": predictLabel, "accuracy": accuracy}
 

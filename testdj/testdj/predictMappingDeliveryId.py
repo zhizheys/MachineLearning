@@ -4,100 +4,77 @@
 
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
-from keras.models import  load_model
+import tensorflow as tf
 from . import utilHelpe
 import os
 
-def predictInfo(fileInfo):
+class PredictMap:
+    global graph
+    graph = tf.get_default_graph()
 
-    rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    fileRootPath = rootPath + '/testdj'
+    def predictInfo(self,modelItem,fileInfo):
 
+        rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        fileRootPath = rootPath + '/testdj'
 
-    targetLabel = 'No found'
-    #load 词向量模型
-    fileVector = open( fileRootPath + '/vectorizer_matchDeliveryId_wordModel.pkl','rb')
-    vectorizer = pickle.load(fileVector)
-    fileVector.close()
+        targetLabel = 'No found'
+        #load 词向量模型
+        fileVector = open( fileRootPath + '/vectorizer_matchDeliveryId_wordModel.pkl','rb')
+        vectorizer = pickle.load(fileVector)
+        fileVector.close()
 
-    #load mapping delivery id model
-    model = load_model(fileRootPath + '/model_keras_matchDeliveryId.h5')
+        #load mapping delivery id model
+        model = modelItem
 
-    testStr=[fileInfo]
-    loaded_vec = CountVectorizer(decode_error="replace", vocabulary=vectorizer)
-    x_testStr = loaded_vec.transform(testStr)
+        testStr=[fileInfo]
+        loaded_vec = CountVectorizer(decode_error="replace", vocabulary=vectorizer)
+        x_testStr = loaded_vec.transform(testStr)
 
-    print('4444444444444444')
-    print(testStr)
-    print(x_testStr)
+        print(model.summary())
 
-    prediction=model.predict(x_testStr)
-    prediction_class=model.predict_classes(x_testStr)
-    maxSimilar = prediction[0].max()
+        with graph.as_default():
+            prediction=model.predict(x_testStr)
+            prediction_class=model.predict_classes(x_testStr)
+            maxSimilar = prediction[0].max()
 
-    #load 词向量模型
-    labelFilePath = open(fileRootPath + '/vectorizer_matchDeliveryId_labelModel.pkl','rb')
-    labelDic = pickle.load(labelFilePath)
-    labelFilePath.close()
-
-
-    loaded_label_vec = CountVectorizer(decode_error="replace", vocabulary=labelDic)
-    loaded_label_vec.fit(labelDic)
-
-    #get dic info
-    keys = loaded_label_vec.vocabulary.keys()
-    for k in keys:
-        if loaded_label_vec.vocabulary[k] == prediction_class[0]:
-            targetLabel = k
-            break
-
-    return  targetLabel,maxSimilar
+        #load 词向量模型
+        labelFilePath = open(fileRootPath + '/vectorizer_matchDeliveryId_labelModel.pkl','rb')
+        labelDic = pickle.load(labelFilePath)
+        labelFilePath.close()
 
 
-def createContentInfo(strArray):
-    contentInfo=''
+        loaded_label_vec = CountVectorizer(decode_error="replace", vocabulary=labelDic)
+        loaded_label_vec.fit(labelDic)
 
-    strUtil = utilHelpe.MyStringUtil()
+        #get dic info
+        keys = loaded_label_vec.vocabulary.keys()
+        for k in keys:
+            if loaded_label_vec.vocabulary[k] == prediction_class[0]:
+                targetLabel = k
+                break
 
-    if strArray != None and len(strArray) > 0:
-        for j in strArray:
-            j = strUtil.removeSpecialCharacter(j)
-            j = strUtil.removeStopWord(j)
-            contentInfo = contentInfo + ' ' + j
+        return  targetLabel,maxSimilar
 
-    return contentInfo.strip()
+    def createContentInfo(self,strArray):
+        contentInfo=''
 
-def createContentInfo2(sender,subject,fileName):
-    contentText=''
-    strUtil = utilHelpe.MyStringUtil()
+        strUtil = utilHelpe.MyStringUtil()
 
-    sender = strUtil.removeSpecialCharacter(sender)
-    sender = strUtil.removeStopWord(sender)
+        if strArray != None and len(strArray) > 0:
+            for j in strArray:
+                j = strUtil.removeSpecialCharacter(j)
+                j = strUtil.removeStopWord(j)
+                contentInfo = contentInfo + ' ' + j
 
-    subject = strUtil.removeSpecialCharacter(subject)
-    subject = strUtil.removeStopWord(subject)
+        return contentInfo.strip()
 
-    fileName = strUtil.removeSpecialCharacter(fileName)
-    fileName = strUtil.removeStopWord(fileName)
 
-    fileInfo = sender + ' ' + subject + ' ' + fileName
+    def getPredictInfo(self,modelItem,sender,subject,fileName):
 
-    if fileInfo != None and fileInfo.strip() != '':
-        contentText=fileInfo.lower().strip()
+        contentArray = [sender,subject,fileName]
+        fileInfo = self.createContentInfo(contentArray)
+        predictLabel,accuracy =self.predictInfo(modelItem,fileInfo)
+        print('predict delivery id is: ',predictLabel)
+        print('predict accuracy is: ', accuracy)
 
-    return  contentText
-
-def getPredictInfo(sender,subject,fileName):
-
-    # sender ='multi.client.aibbny@bnymellon.com'
-    # subject = 'Invesco STIC EUR Liquidity daily nav/factor/yield information - 03/25/2019'
-    # fileName = 'INVESCO _Invesco STIC Global Series EUR_PRICESHEET_II_20190325.xls'
-    #
-
-    contentArray = [sender,subject,fileName]
-    fileInfo = createContentInfo(contentArray)
-    predictLabel,accuracy =predictInfo(fileInfo)
-    print('predict delivery id is: ',predictLabel)
-    print('predict accuracy is: ', accuracy)
-
-    return predictLabel,accuracy
+        return predictLabel,accuracy
