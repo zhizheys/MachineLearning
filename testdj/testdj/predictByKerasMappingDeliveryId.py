@@ -1,6 +1,5 @@
 
 
-
 #根据前面预测的模型，对数据进行情感分析
 
 import pickle
@@ -53,24 +52,29 @@ def predictInfo(fileInfo):
 
 def createContentInfo(strArray):
     contentInfo=''
+
+    strUtil = utilHelpe.MyStringUtil()
+
     if strArray != None and len(strArray) > 0:
         for j in strArray:
-            j = utilHelpe.removeSpecialCharacter(j)
-            j = utilHelpe.removeStopWord(j)
+            j = strUtil.removeSpecialCharacter(j)
+            j = strUtil.removeStopWord(j)
             contentInfo = contentInfo + ' ' + j
 
     return contentInfo.strip()
 
 def createContentInfo2(sender,subject,fileName):
     contentText=''
-    sender = utilHelpe.removeSpecialCharacter(sender)
-    sender = utilHelpe.removeStopWord(sender)
+    strUtil = utilHelpe.MyStringUtil()
 
-    subject = utilHelpe.removeSpecialCharacter(subject)
-    subject = utilHelpe.removeStopWord(subject)
+    sender = strUtil.removeSpecialCharacter(sender)
+    sender = strUtil.removeStopWord(sender)
 
-    fileName = utilHelpe.removeSpecialCharacter(fileName)
-    fileName = utilHelpe.removeStopWord(fileName)
+    subject = strUtil.removeSpecialCharacter(subject)
+    subject = strUtil.removeStopWord(subject)
+
+    fileName = strUtil.removeSpecialCharacter(fileName)
+    fileName = strUtil.removeStopWord(fileName)
 
     fileInfo = sender + ' ' + subject + ' ' + fileName
 
