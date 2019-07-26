@@ -150,6 +150,12 @@
                 var subject= $("#subject").val();
                 var fileName= $("#fileName").val();
 
+                var content = sender + subject + fileName;
+                if(content ==null || content.length <1){
+                    alert("please input search condition");
+                    return false;
+                }
+
                 var obj = new Object();
                 obj.sender = sender;
                 obj.subject = subject;
