@@ -1,2 +1,1 @@
-# MachineLearning
-MachineLearning
+本项目是通过django 部署机器学习模型的，对外提供api
