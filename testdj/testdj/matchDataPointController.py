@@ -24,7 +24,7 @@ def getMatchInfo(request):
     try:
         print('----------body', request.body)
         bodyInfo = json.loads(request.body)
-        dataContent=bodyInfo['fileName']
+        dataContent=bodyInfo['dataInfo']
 
         print('----------body content', dataContent)
 
@@ -33,7 +33,7 @@ def getMatchInfo(request):
         accuracy = '%.5f'%accuracy
 
         if predictLabel != None:
-            predictLabel = str(predictLabel).upper()
+            predictLabel = str(predictLabel).lower()
 
         result = {"apiCode":1,"message":'',"apiResult":"success","dataPointName": predictLabel, "accuracy": accuracy}
 
