@@ -28,7 +28,7 @@ def getMatchInfo(request):
 
         print('----------body content', dataContent)
 
-        predictItem = pd.PredictMap()
+        predictItem = pd.PredictMapDataPoint()
         predictLabel, accuracy = predictItem.getPredictInfo(model,dataContent)
         accuracy = '%.5f'%accuracy
 
