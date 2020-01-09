@@ -2,3 +2,9 @@
 /testdj/testdj/model_keras_matchDeliveryId.h5
 /testdj/testdj/vectorizer_matchDeliveryId_labelModel.pkl
 /testdj/testdj/vectorizer_matchDeliveryId_wordModel.pkl
+/testdj/testdj/matchDataPoint/*.pkl
+/testdj/testdj/matchDataPoint/*.h5
+/testdj/testdj/version_1/*.pkl
+/testdj/testdj/version_1/*.h5
+/testdj/testdj/version_2/*.pkl
+/testdj/testdj/version_2/*.h5

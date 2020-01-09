@@ -35,3 +35,25 @@ class MyStringUtil():
             return " ".join(filtered_sentence)
         else:
             return ''
+
+
+    def removeStopWord_title(self, text):
+
+        if text == None or text.strip() == '':
+            return ''
+
+        stopWordsArray = stopwords.words('english')
+
+        newStopWords = ['summary', 'risk/return', 'the', 'what', 'is', 'of']
+
+        stopWordsArray.extend(newStopWords)
+
+        stop_words = stopWordsArray
+
+        word_tokens = word_tokenize(text.lower())
+        filtered_sentence = [w for w in word_tokens if not w in stop_words]
+
+        if filtered_sentence != None:
+            return " ".join(filtered_sentence)
+        else:
+            return ''

@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import view
-from . import test
+from . import testController
+from . import matchDataPointController
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', view.hello),
-    path('test/', test.search_info),
-    path('search/', test.search),
+    path('test/', testController.search_info),
+    path('search/', testController.search),
+    path('matchdatapoint/', matchDataPointController.getMatchInfo),
 ]
